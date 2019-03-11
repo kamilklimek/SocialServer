@@ -1,9 +1,13 @@
 package eu.geniusgamedev.StepLink.metadata.entity;
 
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +23,8 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Builder
-@Builder
+@Setter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class User {
 
     @Id
