@@ -3,6 +3,7 @@ package eu.geniusgamedev.StepLink.metadata.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Getter
+@ToString
 @NoArgsConstructor
 @Table(name="followers")
 public class Follower {

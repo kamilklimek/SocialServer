@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Entity;
@@ -22,6 +23,7 @@ import java.util.List;
 @Table(name="users")
 @NoArgsConstructor
 @Getter
+@ToString(exclude = "password")
 @Builder
 @Setter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

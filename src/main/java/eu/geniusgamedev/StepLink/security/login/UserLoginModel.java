@@ -1,4 +1,4 @@
-package eu.geniusgamedev.StepLink.security.register;
+package eu.geniusgamedev.StepLink.security.login;
 
 
 import lombok.Getter;

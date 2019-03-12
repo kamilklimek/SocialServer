@@ -1,7 +1,9 @@
 package eu.geniusgamedev.StepLink.security.register;
 
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @Getter
 public class UserRegisterModel {
     private String name;
