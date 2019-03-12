@@ -14,6 +14,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.LinkedList;
@@ -43,4 +46,12 @@ public class User {
 
     @OneToMany(mappedBy = "from")
     private List<Follower> following = new LinkedList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "USERS_EVENTS",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="event_id")
+    )
+    private List<Event> joinedEvents = new LinkedList<>();
 }
