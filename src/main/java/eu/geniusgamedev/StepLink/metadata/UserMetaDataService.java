@@ -11,10 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Component
 @Slf4j
+@Transactional
 @AllArgsConstructor
 public class UserMetaDataService {
     private final UserRepository userRepository;
@@ -47,10 +49,10 @@ public class UserMetaDataService {
     public ProfileModel findUserById(Long id) {
         final User user = findUser(id);
 
-        return profileAssembler.convertEntityToModel(user);
+        return profileAssembler.convertEntityToFullProfileModel(user);
     }
 
-    private User findUser(Long id) {
+    public User findUser(Long id) {
         try {
             return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         } catch (Exception e) {

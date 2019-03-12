@@ -1,7 +1,9 @@
 package eu.geniusgamedev.StepLink.metadata.entity;
 
-
-import lombok.Getter;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -11,23 +13,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
-@Getter
-@ToString
 @NoArgsConstructor
-@Table(name="followers")
-public class Follower {
+@Data
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString
+public class FollowersRelations {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="from_user_fk")
-    private User from;
+    @JoinColumn(name = "follower")
+    private User follower;
 
     @ManyToOne
-    @JoinColumn(name="to_user_fk")
-    private User to;
+    @JoinColumn(name = "followed")
+    private User followed;
 }
