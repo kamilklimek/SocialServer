@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,5 +36,20 @@ public class FollowerController {
             throw e;
         }
     }
+
+    @DeleteMapping(value = "/unfollow/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> unfollowUser(
+            @AuthenticationPrincipal UserIdentity user,
+            @PathVariable(name = "id") Long userIdToUnfollow) {
+
+        try {
+            followerService.unfollowUser(user, userIdToUnfollow);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error("Caught error while try to unfollow another use with: {}, by current user: {}", userIdToUnfollow, user);
+            throw e;
+        }
+    }
+
 }
 

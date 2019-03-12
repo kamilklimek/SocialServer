@@ -49,9 +49,19 @@ public class FollowerService {
 
     private void validateUserId(UserIdentity currentUser, Long userIdToFollow) {
         if (currentUser.getUserId().equals(userIdToFollow)) {
-            log.error("User: {} cannot follow yourself (userIdToFollow: {}).", currentUser, userIdToFollow);
+            log.error("User: {} cannot follow/unfollow yourself (userIdToFollow: {}).", currentUser, userIdToFollow);
             throw new FollowUserException("User: " + currentUser +" cannot follow yourself (userIdToFollow: " + userIdToFollow + ").");
         }
+    }
+
+    public void unfollowUser(UserIdentity user, Long userIdToUnfollow) {
+        validateUserId(user, userIdToUnfollow);
+
+        removeFollowerRelations(user.getUserId(), userIdToUnfollow);
+    }
+
+    private void removeFollowerRelations(Long currentUserId, Long userIdToUnfollow) {
+        relationsRepository.deleteByFollowerIdAndFollowedId(currentUserId, userIdToUnfollow);
     }
 
     private class FollowUserException extends RuntimeException {

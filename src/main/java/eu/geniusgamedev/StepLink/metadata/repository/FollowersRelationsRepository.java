@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FollowersRelationsRepository extends JpaRepository<FollowersRelations, Long> {
     boolean existsByFollowerIdAndFollowedId(Long follower, Long followed);
+    void deleteByFollowerIdAndFollowedId(Long follower, Long followed);
 }
