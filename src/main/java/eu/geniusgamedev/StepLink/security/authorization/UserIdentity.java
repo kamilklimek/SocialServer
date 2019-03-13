@@ -15,6 +15,7 @@ import java.util.Collections;
 
 @Getter
 @Builder
+@ToString
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserIdentity implements UserDetails {
     private final Long userId;

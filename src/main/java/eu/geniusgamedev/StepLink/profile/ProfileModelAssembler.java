@@ -1,14 +1,21 @@
 package eu.geniusgamedev.StepLink.profile;
 
+import eu.geniusgamedev.StepLink.events.EventAssembler;
+import eu.geniusgamedev.StepLink.events.EventModel;
+import eu.geniusgamedev.StepLink.metadata.entity.Event;
 import eu.geniusgamedev.StepLink.metadata.entity.FollowersRelations;
 import eu.geniusgamedev.StepLink.metadata.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class ProfileModelAssembler {
+    private final EventAssembler eventAssembler;
+
     public FullProfileModel convertEntityToFullProfileModel(User user) {
         return new FullProfileModel.Builder()
                 .email(user.getEmail())
@@ -17,7 +24,14 @@ public class ProfileModelAssembler {
                 .following(getAllFollowing(user))
                 .followers(getAllFollowers(user))
                 .name((user.getName()))
+                .joinedEvents(convertEvents(user.getJoinedEvents()))
                 .build();
+    }
+
+    private List<EventModel> convertEvents(List<Event> joinedEvents) {
+        return joinedEvents.stream()
+                .map(eventAssembler::convertFromEntity)
+                .collect(Collectors.toList());
     }
 
     public ProfileModel convertEntityToProfileModel(User user) {
