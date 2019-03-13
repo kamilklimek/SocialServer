@@ -1,6 +1,7 @@
 package eu.geniusgamedev.StepLink.controllers;
 
 import eu.geniusgamedev.StepLink.events.EventCreateModel;
+import eu.geniusgamedev.StepLink.events.EventModel;
 import eu.geniusgamedev.StepLink.metadata.EventService;
 import eu.geniusgamedev.StepLink.metadata.entity.Event;
 import eu.geniusgamedev.StepLink.security.authorization.UserIdentity;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -25,6 +28,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class EventController {
     private final EventService eventService;
 
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<EventModel>> getEvents() {
+        try {
+            return ResponseEntity.ok(eventService.getEvents());
+        }catch (Exception e) {
+            log.error("Caught error while trying to get a events.");
+            throw e;
+        }
+    }
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Event> getEventById(@PathVariable(name = "id") Long eventId) {
         try {
@@ -33,7 +45,6 @@ public class EventController {
             log.error("Entity event does not exists for id: {}.", eventId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
         catch (Exception e) {
             log.error("Caught error while trying to get a event by id: {}.", eventId);
             throw e;

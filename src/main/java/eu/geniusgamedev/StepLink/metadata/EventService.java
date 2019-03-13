@@ -2,6 +2,7 @@ package eu.geniusgamedev.StepLink.metadata;
 
 import eu.geniusgamedev.StepLink.events.EventAssembler;
 import eu.geniusgamedev.StepLink.events.EventCreateModel;
+import eu.geniusgamedev.StepLink.events.EventModel;
 import eu.geniusgamedev.StepLink.metadata.entity.Event;
 import eu.geniusgamedev.StepLink.metadata.entity.User;
 import eu.geniusgamedev.StepLink.metadata.repository.EventRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -86,6 +88,14 @@ public class EventService {
         if (!isJoined) {
             throw new UserIsNotJoinedToEvent(userIdentity.getUserId(), eventId);
         }
+    }
+
+    public List<EventModel> getEvents() {
+        log.info("Get all events...");
+
+        return eventRepository.findAll().stream()
+                .map(eventAssembler::convertFromEntity)
+                .collect(Collectors.toList());
     }
 
     public class EventCouldNotBeFoundException extends RuntimeException{
