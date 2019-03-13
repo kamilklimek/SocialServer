@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,6 +62,20 @@ public class EventController {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
             log.error("Error caught while trying to join to event: {} as user: {}", eventId, userIdentity);
+            throw e;
+        }
+    }
+
+    @DeleteMapping(value = "/unjoin/{id}")
+    public ResponseEntity<Void> unjoinEvent(@AuthenticationPrincipal UserIdentity userIdentity, @PathVariable(name = "id") Long eventId) {
+        try {
+            eventService.unjoinEvent(userIdentity, eventId);
+            return ResponseEntity.ok().build();
+        } catch (EventService.EventCouldNotBeFoundException e) {
+            log.error("User: {} cannot unjoin from event which he belongs to: {}.", userIdentity, eventId);
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            log.error("Error caught while trying to unjoin event: {} as user: {}", eventId, userIdentity);
             throw e;
         }
     }

@@ -64,6 +64,30 @@ public class EventService {
         }
     }
 
+    @Transactional
+    public void unjoinEvent(UserIdentity userIdentity, Long eventId) {
+        log.info("Remove user: {} from event: {}.", userIdentity, eventId);
+        validateUserIsJoined(userIdentity, eventId);
+
+        removeUserEvent(userIdentity, eventId);
+    }
+
+    private void removeUserEvent(UserIdentity userIdentity, Long eventId) {
+        final User user = userMetaDataService.findUser(userIdentity.getUserId());
+
+        List<Event> userEvents = user.getJoinedEvents();
+
+        userEvents.removeIf(event -> event.getId().equals(eventId));
+    }
+
+    private void validateUserIsJoined(UserIdentity userIdentity, Long eventId) {
+        boolean isJoined = eventRepository.existsByIdAndAttachedUsersId(eventId, userIdentity.getUserId());
+
+        if (!isJoined) {
+            throw new UserIsNotJoinedToEvent(userIdentity.getUserId(), eventId);
+        }
+    }
+
     public class EventCouldNotBeFoundException extends RuntimeException{
         EventCouldNotBeFoundException(Long eventId) {
             super("Event with id: " + eventId + " does not exists.");
@@ -71,8 +95,14 @@ public class EventService {
     }
 
     private class NoAvailableSpotInEvent extends RuntimeException {
-        public NoAvailableSpotInEvent(Long eventId) {
+        private NoAvailableSpotInEvent(Long eventId) {
             super("Event with id: " + eventId + " does not has any more spots");
+        }
+    }
+
+    private class UserIsNotJoinedToEvent extends RuntimeException {
+        private UserIsNotJoinedToEvent(Long userId, Long eventId) {
+            super("User iwth id: " + userId + " is not assigned to event: " + eventId);
         }
     }
 }
