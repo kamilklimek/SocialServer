@@ -157,7 +157,7 @@ public class EventService {
         boolean isOwner = eventInviteLink.getOwner().getId().equals(userIdentity.getUserId());
 
         if (isOwner) {
-            throw new UserIsOwnerOfEventException(userIdentity.getUserId(), eventInviteLink.getUniqueLink());
+            throw new UserIsOwnerOfEventLinkException(userIdentity.getUserId(), eventInviteLink.getUniqueLink());
         }
     }
 
@@ -185,8 +185,8 @@ public class EventService {
         }
     }
 
-    public class UserIsOwnerOfEventException extends RuntimeException{
-        private UserIsOwnerOfEventException(Long userId, String uniqueLink) {
+    public class UserIsOwnerOfEventLinkException extends RuntimeException{
+        private UserIsOwnerOfEventLinkException(Long userId, String uniqueLink) {
             super("User: " + userId + " is owner of link: " + uniqueLink);
         }
     }

@@ -41,7 +41,7 @@ public class EventInvitationController {
 
         try {
             return ResponseEntity.ok(eventService.acceptInvitationToEvent(userIdentity, uniqueHash));
-        } catch (EventService.UserIsOwnerOfEventException e) {
+        } catch (EventService.UserIsOwnerOfEventLinkException e) {
             log.error("User: {} is owner of invitation and cannot accept it: {}", userIdentity, uniqueHash);
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("You cannot accept invitation due to you are owner of this.");
         } catch (EventService.UserAlreadyJoinedToEventException e) {

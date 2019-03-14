@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @NoArgsConstructor
@@ -20,6 +21,7 @@ import javax.persistence.ManyToOne;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
+@Table(name = "followers_relations")
 public class FollowersRelations {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
