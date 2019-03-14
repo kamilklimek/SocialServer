@@ -41,9 +41,9 @@ public class EventController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Event> getEventById(@PathVariable(name = "id") Long eventId) {
+    public ResponseEntity<EventModel> getEventById(@PathVariable(name = "id") Long eventId) {
         try {
-            return ResponseEntity.ok(eventService.getEvent(eventId));
+            return ResponseEntity.ok(eventService.getEventModel(eventId));
         } catch(EventService.EventCouldNotBeFoundException e) {
             log.error("Entity event does not exists for id: {}.", eventId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

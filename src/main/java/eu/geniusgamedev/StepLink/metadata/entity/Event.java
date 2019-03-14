@@ -10,14 +10,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Date;
@@ -42,10 +46,11 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private EventType type;
     private int maxParticipants;
-    @OneToOne(mappedBy = "event")
-    private EventInviteLink eventInviteLink;
+    @OneToMany(mappedBy = "event")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<EventInviteLink> eventInviteLink;
 
-    @ManyToMany(mappedBy = "joinedEvents")
+    @ManyToMany(mappedBy = "joinedEvents", fetch = FetchType.EAGER)
     private List<User> attachedUsers = new LinkedList<>();
 
     private Event(String name, String location, Date date, String description, EventType type, int maxParticipants) {

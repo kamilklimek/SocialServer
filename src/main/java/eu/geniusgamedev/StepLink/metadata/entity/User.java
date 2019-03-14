@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.CascadeType;
@@ -46,6 +48,7 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "owner")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<EventInviteLink> eventInviteLinks = new LinkedList<>();
 
     @OneToMany(mappedBy = "follower")

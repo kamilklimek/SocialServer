@@ -31,9 +31,13 @@ public class EventService {
     private final EventInviteLinkRepository eventInviteLinkRepository;
     private final EventInviteLinkAssembler eventInviteLinkAssembler;
 
-    public Event getEvent(Long eventId) {
+    private Event getEvent(Long eventId) {
         return eventRepository.findById(eventId)
                 .orElseThrow(() -> new EventCouldNotBeFoundException(eventId));
+    }
+
+    public EventModel getEventModel(Long eventId) {
+        return eventAssembler.convertFromEntity(getEvent(eventId));
     }
 
     public Event addEvent(EventCreateModel eventModel) {
