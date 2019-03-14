@@ -2,9 +2,14 @@ package eu.geniusgamedev.StepLink.metadata;
 
 import eu.geniusgamedev.StepLink.events.EventAssembler;
 import eu.geniusgamedev.StepLink.events.EventCreateModel;
+import eu.geniusgamedev.StepLink.events.EventInviteLinkAssembler;
+import eu.geniusgamedev.StepLink.events.EventInviteLinkModel;
 import eu.geniusgamedev.StepLink.events.EventModel;
+import eu.geniusgamedev.StepLink.events.InviteLinkGenerator;
 import eu.geniusgamedev.StepLink.metadata.entity.Event;
+import eu.geniusgamedev.StepLink.metadata.entity.EventInviteLink;
 import eu.geniusgamedev.StepLink.metadata.entity.User;
+import eu.geniusgamedev.StepLink.metadata.repository.EventInviteLinkRepository;
 import eu.geniusgamedev.StepLink.metadata.repository.EventRepository;
 import eu.geniusgamedev.StepLink.security.authorization.UserIdentity;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +27,9 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventAssembler eventAssembler;
     private final UserMetaDataService userMetaDataService;
+    private final InviteLinkGenerator inviteLinkGenerator;
+    private final EventInviteLinkRepository eventInviteLinkRepository;
+    private final EventInviteLinkAssembler eventInviteLinkAssembler;
 
     public Event getEvent(Long eventId) {
         return eventRepository.findById(eventId)
@@ -35,7 +43,7 @@ public class EventService {
     }
 
     @Transactional
-    public void joinEvent(UserIdentity userIdentity, Long eventId) {
+    public EventModel joinEvent(UserIdentity userIdentity, Long eventId) {
         validateEventExists(eventId);
 
         final Event event = getEvent(eventId);
@@ -43,16 +51,16 @@ public class EventService {
 
         final User user = userMetaDataService.findUser(userIdentity.getUserId());
 
-        joinUserToEvent(user, event);
+        return eventAssembler.convertFromEntity(joinUserToEvent(user, event));
     }
 
-    private void joinUserToEvent(User user, Event event) {
+    private Event joinUserToEvent(User user, Event event) {
         List<Event> events = user.getJoinedEvents();
         events.add(event);
+        return event;
     }
 
     private void validateUserCanJoinEvent(Event event) {
-
         if (event.getNumberOfParticipants() >= event.getMaxParticipants()) {
             throw new NoAvailableSpotInEvent(event.getId());
         }
@@ -98,6 +106,61 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public EventInviteLinkModel inviteToEvent(UserIdentity userIdentity, Long eventId) {
+        validateEventExists(eventId);
+
+        final User user = userMetaDataService.findUser(userIdentity.getUserId());
+        final Event event = getEvent(eventId);
+
+        return eventInviteLinkAssembler.convertEntityToModel(createOrGetInviteLink(user, event));
+    }
+
+    private EventInviteLink createOrGetInviteLink(User user, Event event) {
+        return eventInviteLinkRepository.findByOwnerIdAndEventId(user.getId(), event.getId())
+                .orElseGet(() -> createInviteLink(user, event));
+    }
+
+    private EventInviteLink createInviteLink(User user, Event event) {
+        String uniqueLink = inviteLinkGenerator.generateUniqueHash();
+
+        EventInviteLink eventInviteLink = EventInviteLink.builder()
+                .uniqueLink(uniqueLink)
+                .owner(user)
+                .event(event)
+                .build();
+
+        return eventInviteLinkRepository.save(eventInviteLink);
+    }
+
+    @Transactional
+    public EventModel acceptInvitationToEvent(UserIdentity userIdentity, String uniqueHash) {
+        final EventInviteLink eventInviteLink = eventInviteLinkRepository.findByUniqueLink(uniqueHash)
+                .orElseThrow(() -> new EventLinkCouldNotBeFoundException(uniqueHash));
+
+        validateIsNotOwner(userIdentity, eventInviteLink);
+
+        validateUserIsNotJoined(userIdentity, eventInviteLink.getEvent().getId());
+
+        return joinEvent(userIdentity, eventInviteLink.getEvent().getId());
+    }
+
+    private void validateUserIsNotJoined(UserIdentity userIdentity, Long id) {
+        boolean isJoined = eventRepository.existsByIdAndAttachedUsersId(id, userIdentity.getUserId());
+
+        if (isJoined) {
+            throw new UserAlreadyJoinedToEventException(userIdentity.getUserId(), id);
+        }
+    }
+
+    private void validateIsNotOwner(UserIdentity userIdentity, EventInviteLink eventInviteLink) {
+        boolean isOwner = eventInviteLink.getOwner().getId().equals(userIdentity.getUserId());
+
+        if (isOwner) {
+            throw new UserIsOwnerOfEventException(userIdentity.getUserId(), eventInviteLink.getUniqueLink());
+        }
+    }
+
     public class EventCouldNotBeFoundException extends RuntimeException{
         EventCouldNotBeFoundException(Long eventId) {
             super("Event with id: " + eventId + " does not exists.");
@@ -112,7 +175,25 @@ public class EventService {
 
     private class UserIsNotJoinedToEvent extends RuntimeException {
         private UserIsNotJoinedToEvent(Long userId, Long eventId) {
-            super("User iwth id: " + userId + " is not assigned to event: " + eventId);
+            super("User with id: " + userId + " is not assigned to event: " + eventId);
+        }
+    }
+
+    private class EventLinkCouldNotBeFoundException extends RuntimeException {
+        private EventLinkCouldNotBeFoundException(String uniqueHash) {
+            super("Event link with unique hash: " + uniqueHash + " could not be found");
+        }
+    }
+
+    public class UserIsOwnerOfEventException extends RuntimeException{
+        private UserIsOwnerOfEventException(Long userId, String uniqueLink) {
+            super("User: " + userId + " is owner of link: " + uniqueLink);
+        }
+    }
+
+    public class UserAlreadyJoinedToEventException extends RuntimeException {
+        private UserAlreadyJoinedToEventException(Long userId, Long id) {
+            super("User with id: " + userId + " is already joined to id: " + id);
         }
     }
 }

@@ -45,11 +45,17 @@ public class User {
     private String email;
     private String password;
 
+    @OneToMany(mappedBy = "owner")
+    private List<EventInviteLink> eventInviteLinks = new LinkedList<>();
+
     @OneToMany(mappedBy = "follower")
     private List<FollowersRelations> following = new LinkedList<>();
 
     @OneToMany(mappedBy = "followed")
     private List<FollowersRelations> followed = new LinkedList<>();
+
+    @OneToMany(mappedBy = "guest")
+    private List<AcceptedInvitation> acceptedInvitations = new LinkedList<>();
 
     @ManyToMany
     @JoinTable(

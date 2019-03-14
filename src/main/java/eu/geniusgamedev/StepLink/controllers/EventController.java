@@ -1,6 +1,7 @@
 package eu.geniusgamedev.StepLink.controllers;
 
 import eu.geniusgamedev.StepLink.events.EventCreateModel;
+import eu.geniusgamedev.StepLink.events.EventInviteLinkModel;
 import eu.geniusgamedev.StepLink.events.EventModel;
 import eu.geniusgamedev.StepLink.metadata.EventService;
 import eu.geniusgamedev.StepLink.metadata.entity.Event;
@@ -32,11 +33,12 @@ public class EventController {
     public ResponseEntity<List<EventModel>> getEvents() {
         try {
             return ResponseEntity.ok(eventService.getEvents());
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("Caught error while trying to get a events.");
             throw e;
         }
     }
+
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Event> getEventById(@PathVariable(name = "id") Long eventId) {
         try {
@@ -63,11 +65,10 @@ public class EventController {
     }
 
     @PostMapping(value = "/join/{id}")
-    public ResponseEntity<Void> joinEvent(@AuthenticationPrincipal UserIdentity userIdentity,
+    public ResponseEntity<EventModel> joinEvent(@AuthenticationPrincipal UserIdentity userIdentity,
                                           @PathVariable(name = "id") Long eventId) {
         try {
-            eventService.joinEvent(userIdentity, eventId);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(eventService.joinEvent(userIdentity, eventId));
         } catch (EventService.EventCouldNotBeFoundException e) {
             log.error("User: {} cannot join to not existing event: {}.", userIdentity, eventId);
             return ResponseEntity.notFound().build();

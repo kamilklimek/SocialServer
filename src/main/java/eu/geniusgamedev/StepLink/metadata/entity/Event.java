@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Date;
 import java.util.LinkedList;
@@ -41,6 +42,8 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private EventType type;
     private int maxParticipants;
+    @OneToOne(mappedBy = "event")
+    private EventInviteLink eventInviteLink;
 
     @ManyToMany(mappedBy = "joinedEvents")
     private List<User> attachedUsers = new LinkedList<>();
