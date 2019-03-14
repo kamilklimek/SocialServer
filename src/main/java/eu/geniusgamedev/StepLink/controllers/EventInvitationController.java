@@ -1,7 +1,6 @@
 package eu.geniusgamedev.StepLink.controllers;
 
 import eu.geniusgamedev.StepLink.events.EventInviteLinkModel;
-import eu.geniusgamedev.StepLink.events.EventModel;
 import eu.geniusgamedev.StepLink.metadata.EventService;
 import eu.geniusgamedev.StepLink.security.authorization.UserIdentity;
 import lombok.RequiredArgsConstructor;
