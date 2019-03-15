@@ -68,12 +68,7 @@ public class User {
     )
     private List<Event> joinedEvents = new LinkedList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "USERS_NOTIFICATIONS",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "notification_id")
-    )
+    @OneToMany(mappedBy = "owner")
     private List<Notification> notifications = new LinkedList<>();
 
     @Override

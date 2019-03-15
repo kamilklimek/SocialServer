@@ -1,5 +1,6 @@
 package eu.geniusgamedev.StepLink.metadata;
 
+import eu.geniusgamedev.StepLink.metadata.entity.Notification;
 import eu.geniusgamedev.StepLink.metadata.entity.User;
 import eu.geniusgamedev.StepLink.metadata.repository.UserRepository;
 import eu.geniusgamedev.StepLink.profile.ProfileModel;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -23,6 +25,10 @@ public class UserMetaDataService {
     private final UserRegisterAssembler assembler;
     private final PasswordEncoder encoder;
     private final ProfileModelAssembler profileAssembler;
+
+    List<User> findAll() {
+        return userRepository.findAll();
+    }
 
     public User register(UserRegisterModel model) {
         log.info("Registering new user: {}. ", model);
