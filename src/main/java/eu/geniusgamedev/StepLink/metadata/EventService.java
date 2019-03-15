@@ -1,10 +1,10 @@
 package eu.geniusgamedev.StepLink.metadata;
 
 import eu.geniusgamedev.StepLink.events.EventAssembler;
-import eu.geniusgamedev.StepLink.events.EventCreateModel;
+import eu.geniusgamedev.StepLink.events.models.EventCreateModel;
 import eu.geniusgamedev.StepLink.events.EventInviteLinkAssembler;
-import eu.geniusgamedev.StepLink.events.EventInviteLinkModel;
-import eu.geniusgamedev.StepLink.events.EventModel;
+import eu.geniusgamedev.StepLink.events.models.EventInviteLinkModel;
+import eu.geniusgamedev.StepLink.events.models.EventModel;
 import eu.geniusgamedev.StepLink.events.InviteLinkGenerator;
 import eu.geniusgamedev.StepLink.metadata.entity.Event;
 import eu.geniusgamedev.StepLink.metadata.entity.EventInviteLink;

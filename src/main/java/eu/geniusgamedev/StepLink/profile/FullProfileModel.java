@@ -1,7 +1,6 @@
 package eu.geniusgamedev.StepLink.profile;
 
-import eu.geniusgamedev.StepLink.events.EventModel;
-import eu.geniusgamedev.StepLink.metadata.entity.Event;
+import eu.geniusgamedev.StepLink.events.models.EventModel;
 import lombok.Getter;
 
 import java.util.LinkedList;

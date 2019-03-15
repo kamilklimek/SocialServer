@@ -1,4 +1,4 @@
-package eu.geniusgamedev.StepLink.events;
+package eu.geniusgamedev.StepLink.events.models;
 
 import eu.geniusgamedev.StepLink.profile.ProfileModel;
 import lombok.AccessLevel;

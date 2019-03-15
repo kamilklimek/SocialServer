@@ -1,5 +1,6 @@
 package eu.geniusgamedev.StepLink.events;
 
+import eu.geniusgamedev.StepLink.events.models.EventInviteLinkModel;
 import eu.geniusgamedev.StepLink.metadata.entity.EventInviteLink;
 import eu.geniusgamedev.StepLink.profile.ProfileModelAssembler;
 import lombok.RequiredArgsConstructor;

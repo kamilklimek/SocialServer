@@ -68,6 +68,14 @@ public class User {
     )
     private List<Event> joinedEvents = new LinkedList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "USERS_NOTIFICATIONS",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "notification_id")
+    )
+    private List<Notification> notifications = new LinkedList<>();
+
     @Override
     public String toString() {
         return "Email: " + email + ", name: " + name + ", id: " + id;

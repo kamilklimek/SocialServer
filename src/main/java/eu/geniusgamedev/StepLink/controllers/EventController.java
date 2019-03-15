@@ -1,8 +1,7 @@
 package eu.geniusgamedev.StepLink.controllers;
 
-import eu.geniusgamedev.StepLink.events.EventCreateModel;
-import eu.geniusgamedev.StepLink.events.EventInviteLinkModel;
-import eu.geniusgamedev.StepLink.events.EventModel;
+import eu.geniusgamedev.StepLink.events.models.EventCreateModel;
+import eu.geniusgamedev.StepLink.events.models.EventModel;
 import eu.geniusgamedev.StepLink.metadata.EventService;
 import eu.geniusgamedev.StepLink.metadata.entity.Event;
 import eu.geniusgamedev.StepLink.security.authorization.UserIdentity;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

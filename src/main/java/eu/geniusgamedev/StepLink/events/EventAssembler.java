@@ -1,5 +1,7 @@
 package eu.geniusgamedev.StepLink.events;
 
+import eu.geniusgamedev.StepLink.events.models.EventCreateModel;
+import eu.geniusgamedev.StepLink.events.models.EventModel;
 import eu.geniusgamedev.StepLink.metadata.entity.Event;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package eu.geniusgamedev.StepLink.profile;
 
 import eu.geniusgamedev.StepLink.events.EventAssembler;
-import eu.geniusgamedev.StepLink.events.EventModel;
+import eu.geniusgamedev.StepLink.events.models.EventModel;
 import eu.geniusgamedev.StepLink.metadata.entity.Event;
 import eu.geniusgamedev.StepLink.metadata.entity.FollowersRelations;
 import eu.geniusgamedev.StepLink.metadata.entity.User;
