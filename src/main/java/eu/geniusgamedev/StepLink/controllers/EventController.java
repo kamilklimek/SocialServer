@@ -3,7 +3,6 @@ package eu.geniusgamedev.StepLink.controllers;
 import eu.geniusgamedev.StepLink.events.models.EventCreateModel;
 import eu.geniusgamedev.StepLink.events.models.EventModel;
 import eu.geniusgamedev.StepLink.metadata.EventService;
-import eu.geniusgamedev.StepLink.metadata.entity.Event;
 import eu.geniusgamedev.StepLink.security.authorization.UserIdentity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +24,7 @@ import java.util.List;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/event")
 public class EventController {
     private final EventService eventService;

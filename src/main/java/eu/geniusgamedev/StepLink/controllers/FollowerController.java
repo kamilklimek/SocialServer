@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
+@CrossOrigin
 @RequiredArgsConstructor
 @RestController
 public class FollowerController {
