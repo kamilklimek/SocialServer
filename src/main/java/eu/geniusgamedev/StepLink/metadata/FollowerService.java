@@ -19,6 +19,7 @@ public class FollowerService {
     private final FollowersRelationsRepository relationsRepository;
 
     public void followUser(UserIdentity currentLoggedUser, Long userIdToFollow) {
+        log.info("Follow user: {} by current logged user: {}", userIdToFollow, currentLoggedUser);
         validateUserId(currentLoggedUser, userIdToFollow);
         validateExistingRelation(currentLoggedUser.getUserId(), userIdToFollow);
 
@@ -55,6 +56,7 @@ public class FollowerService {
     }
 
     public void unfollowUser(UserIdentity user, Long userIdToUnfollow) {
+        log.info("Unfollowing user: {} by current logged user: {}", userIdToUnfollow, user);
         validateUserId(user, userIdToUnfollow);
 
         removeFollowerRelations(user.getUserId(), userIdToUnfollow);

@@ -42,7 +42,6 @@ public class UserMetaDataService {
     }
 
     private void encodePassword(User user) {
-        log.info("Encoding password for user: {}.", user);
         String encodedPassword = encoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
     }
@@ -54,12 +53,15 @@ public class UserMetaDataService {
 
 
     public ProfileModel findUserById(Long id) {
+        log.info("Finding user profile by id: {}", id);
         final User user = findUser(id);
 
         return profileAssembler.convertEntityToFullProfileModel(user);
     }
 
     public User findUser(Long id) {
+        log.info("Finding user by id: {}.", id);
+
         try {
             return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         } catch (Exception e) {

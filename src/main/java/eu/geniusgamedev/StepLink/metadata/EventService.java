@@ -37,6 +37,7 @@ public class EventService {
     }
 
     public EventModel getEventModel(Long eventId) {
+        log.info("Getting a event for id: {}", eventId);
         return eventAssembler.convertFromEntity(getEvent(eventId));
     }
 
@@ -50,6 +51,7 @@ public class EventService {
 
     @Transactional
     public EventModel joinEvent(UserIdentity userIdentity, Long eventId) {
+        log.info("Joining to event with id: {}, by user: {}", eventId, userIdentity);
         validateEventExists(eventId);
 
         final Event event = getEvent(eventId);
@@ -114,6 +116,7 @@ public class EventService {
 
     @Transactional
     public EventInviteLinkModel inviteToEvent(UserIdentity userIdentity, Long eventId) {
+        log.info("Creating invititation link to event: {} by user: {}", eventId, userIdentity);
         validateEventExists(eventId);
 
         final User user = userMetaDataService.findUser(userIdentity.getUserId());
@@ -141,6 +144,8 @@ public class EventService {
 
     @Transactional
     public EventModel acceptInvitationToEvent(UserIdentity userIdentity, String uniqueHash) {
+        log.info("Accepting invitation to event with hash: {} by user: {}", uniqueHash, uniqueHash);
+
         final EventInviteLink eventInviteLink = eventInviteLinkRepository.findByUniqueLink(uniqueHash)
                 .orElseThrow(() -> new EventLinkCouldNotBeFoundException(uniqueHash));
 
