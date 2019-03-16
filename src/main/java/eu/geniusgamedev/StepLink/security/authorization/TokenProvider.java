@@ -43,7 +43,7 @@ public class TokenProvider {
 
         UserDetails userDetails = appUserDetailsService.loadUserByUsername(email);
 
-        return new UsernamePasswordAuthenticationToken(userDetails, "",
+            return new UsernamePasswordAuthenticationToken(userDetails, "",
                 userDetails.getAuthorities());
     }
 }

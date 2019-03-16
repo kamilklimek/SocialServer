@@ -1,26 +1,35 @@
 package eu.geniusgamedev.StepLink.security.authorization;
 
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.Collection;
 import java.util.Collections;
 
 
-@Getter
-@Builder
+
 @ToString
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class UserIdentity implements UserDetails {
-    private final Long userId;
-    private final String email;
-    private final String password;
+    private Long userId;
+    private String email;
+    private String password;
+
+    public UserIdentity() {
+        userId = 1l;
+        email ="any@ex.com";
+        password = "pass";
+    }
+
+    public UserIdentity(Long userId, String email, String password) {
+        this.userId = userId;
+        this.email = email;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -30,6 +39,26 @@ public class UserIdentity implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override

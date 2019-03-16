@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,8 +64,10 @@ public class EventController {
     }
 
     @PostMapping(value = "/join/{id}")
-    public ResponseEntity<EventModel> joinEvent(@AuthenticationPrincipal UserIdentity userIdentity,
+    public ResponseEntity<EventModel> joinEvent(UsernamePasswordAuthenticationToken principal,
                                           @PathVariable(name = "id") Long eventId) {
+        UserIdentity userIdentity = (UserIdentity) principal.getPrincipal();
+
         try {
             return ResponseEntity.ok(eventService.joinEvent(userIdentity, eventId));
         } catch (EventService.EventCouldNotBeFoundException e) {
@@ -78,7 +80,9 @@ public class EventController {
     }
 
     @DeleteMapping(value = "/unjoin/{id}")
-    public ResponseEntity<Void> unjoinEvent(@AuthenticationPrincipal UserIdentity userIdentity, @PathVariable(name = "id") Long eventId) {
+    public ResponseEntity<Void> unjoinEvent(UsernamePasswordAuthenticationToken principal, @PathVariable(name = "id") Long eventId) {
+        UserIdentity userIdentity = (UserIdentity) principal.getPrincipal();
+
         try {
             eventService.unjoinEvent(userIdentity, eventId);
             return ResponseEntity.ok().build();

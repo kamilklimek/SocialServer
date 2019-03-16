@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,8 +25,9 @@ public class EventInvitationController {
 
     @PutMapping(value = "/invite/{id}")
     public ResponseEntity<EventInviteLinkModel> getInviteLink(@PathVariable(name = "id") Long eventId,
-                                                              @AuthenticationPrincipal UserIdentity userIdentity) {
+                                                              UsernamePasswordAuthenticationToken principal) {
 
+        UserIdentity userIdentity = (UserIdentity) principal.getPrincipal();
         try {
             return ResponseEntity.ok(eventService.inviteToEvent(userIdentity, eventId));
         }  catch (Exception e) {
@@ -37,7 +38,9 @@ public class EventInvitationController {
 
     @PostMapping(value = "/invitation/{uniqueHash}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> acceptInvitationToEvent(@PathVariable String uniqueHash,
-                                                              @AuthenticationPrincipal UserIdentity userIdentity) {
+                                                     UsernamePasswordAuthenticationToken principal) {
+
+        UserIdentity userIdentity = (UserIdentity) principal.getPrincipal();
 
         try {
             return ResponseEntity.ok(eventService.acceptInvitationToEvent(userIdentity, uniqueHash));

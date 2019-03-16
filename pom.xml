@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<aspectj.version>1.7.4</aspectj.version>
 	</properties>
 
 	<dependencies>
@@ -29,7 +30,12 @@
 			<version>2.6.1</version>
 			<scope>compile</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>5.1.5.RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
@@ -40,8 +46,21 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+        <!-- https://mvnrepository.com/artifact/aspectj/aspectjrt -->
+        <dependency>
+            <groupId>aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+		<!-- https://mvnrepository.com/artifact/aspectj/aspectjtools -->
 		<dependency>
+			<groupId>aspectj</groupId>
+			<artifactId>aspectjtools</artifactId>
+			<version>1.5.3</version>
+		</dependency>
+
+
+        <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>

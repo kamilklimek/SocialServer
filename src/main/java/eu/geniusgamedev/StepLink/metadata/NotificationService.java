@@ -30,6 +30,8 @@ public class NotificationService {
 
     @Transactional
     public Notification saveNotification(Long userId, String message) {
+        log.info("Saving notification, userId: {}, message: {}", userId, message);
+
         final User user = userMetaDataService.findUser(userId);
         Notification notification = new Notification(message, user);
 
@@ -38,6 +40,7 @@ public class NotificationService {
 
     @Transactional
     public List<Notification> saveNotifications(String message) {
+        log.info("Saving notifications with message: {}", message);
         final List<User> users = userMetaDataService.findAll();
 
         return saveNotificationForEachUser(users, message);

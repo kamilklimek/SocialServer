@@ -26,7 +26,7 @@ import java.security.SignatureException;
 @RequiredArgsConstructor
 public class JWTFilter implements Filter {
     private final TokenProvider tokenProvider;
-    public final static String AUTHORIZATION_HEADER = "Authorization";
+    private final static String AUTHORIZATION_HEADER = "Authorization";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,

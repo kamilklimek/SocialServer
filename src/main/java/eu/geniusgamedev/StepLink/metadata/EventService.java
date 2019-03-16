@@ -41,6 +41,8 @@ public class EventService {
     }
 
     public Event addEvent(EventCreateModel eventModel) {
+        log.info("Creating a new event: {}", eventModel);
+
         final Event event = eventAssembler.convertToEntity(eventModel);
 
         return eventRepository.save(event);
