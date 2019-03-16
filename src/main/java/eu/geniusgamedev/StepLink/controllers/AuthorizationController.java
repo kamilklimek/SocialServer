@@ -2,6 +2,7 @@ package eu.geniusgamedev.StepLink.controllers;
 
 import eu.geniusgamedev.StepLink.metadata.UserMetaDataService;
 import eu.geniusgamedev.StepLink.metadata.entity.User;
+import eu.geniusgamedev.StepLink.profile.FullProfileModel;
 import eu.geniusgamedev.StepLink.security.authorization.TokenProvider;
 import eu.geniusgamedev.StepLink.security.login.UserLoginModel;
 import eu.geniusgamedev.StepLink.security.register.UserRegisterModel;
@@ -31,7 +32,7 @@ public class AuthorizationController {
             value = "/signup",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> register(@RequestBody UserRegisterModel model) {
+    public ResponseEntity<FullProfileModel> register(@RequestBody UserRegisterModel model) {
 
         try {
             return ResponseEntity.ok(userService.register(model));

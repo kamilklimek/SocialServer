@@ -40,12 +40,12 @@ public class EventService {
         return eventAssembler.convertFromEntity(getEvent(eventId));
     }
 
-    public Event addEvent(EventCreateModel eventModel) {
+    public EventModel addEvent(EventCreateModel eventModel) {
         log.info("Creating a new event: {}", eventModel);
 
         final Event event = eventAssembler.convertToEntity(eventModel);
 
-        return eventRepository.save(event);
+        return eventAssembler.convertFromEntity(eventRepository.save(event));
     }
 
     @Transactional

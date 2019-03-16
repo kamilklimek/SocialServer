@@ -53,7 +53,7 @@ public class EventController {
     }
 
     @PostMapping(value="", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Event> addEvent(@RequestBody EventCreateModel eventModel) {
+    public ResponseEntity<EventModel> addEvent(@RequestBody EventCreateModel eventModel) {
 
         try {
             return ResponseEntity.ok(eventService.addEvent(eventModel));

@@ -20,9 +20,6 @@ public class UserIdentity implements UserDetails {
     private String password;
 
     public UserIdentity() {
-        userId = 1l;
-        email ="any@ex.com";
-        password = "pass";
     }
 
     public UserIdentity(Long userId, String email, String password) {

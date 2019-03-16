@@ -3,6 +3,7 @@ package eu.geniusgamedev.StepLink.metadata;
 import eu.geniusgamedev.StepLink.metadata.entity.Notification;
 import eu.geniusgamedev.StepLink.metadata.entity.User;
 import eu.geniusgamedev.StepLink.metadata.repository.UserRepository;
+import eu.geniusgamedev.StepLink.profile.FullProfileModel;
 import eu.geniusgamedev.StepLink.profile.ProfileModel;
 import eu.geniusgamedev.StepLink.profile.ProfileModelAssembler;
 import eu.geniusgamedev.StepLink.security.register.UserRegisterAssembler;
@@ -30,14 +31,14 @@ public class UserMetaDataService {
         return userRepository.findAll();
     }
 
-    public User register(UserRegisterModel model) {
+    public FullProfileModel register(UserRegisterModel model) {
         log.info("Registering new user: {}. ", model);
 
         final User user = assembler.convertModelToDao(model);
 
         encodePassword(user);
 
-        return userRepository.save(user);
+        return profileAssembler.convertEntityToFullProfileModel(userRepository.save(user));
     }
 
     private void encodePassword(User user) {
