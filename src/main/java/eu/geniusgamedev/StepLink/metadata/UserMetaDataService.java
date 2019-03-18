@@ -1,8 +1,9 @@
 package eu.geniusgamedev.StepLink.metadata;
 
-import eu.geniusgamedev.StepLink.metadata.entity.Notification;
 import eu.geniusgamedev.StepLink.metadata.entity.User;
 import eu.geniusgamedev.StepLink.metadata.repository.UserRepository;
+import eu.geniusgamedev.StepLink.metadata.search.SpecificationFactory;
+import eu.geniusgamedev.StepLink.metadata.search.SpecificationProxy;
 import eu.geniusgamedev.StepLink.metadata.search.UserSpecification;
 import eu.geniusgamedev.StepLink.profile.FullProfileModel;
 import eu.geniusgamedev.StepLink.profile.ProfileModel;
@@ -28,9 +29,10 @@ public class UserMetaDataService {
     private final UserRegisterAssembler assembler;
     private final PasswordEncoder encoder;
     private final ProfileModelAssembler profileAssembler;
+    private final SpecificationFactory specificationFactory;
 
     public List<ProfileModel> findAllUsers(String search) {
-        Specification<User> specification = new UserSpecification(search);
+        SpecificationProxy specification = specificationFactory.createProxy(new UserSpecification(search));
 
         return profileAssembler.convertEntitiesToProfileModels(userRepository.findAll(specification));
     }

@@ -1,19 +1,24 @@
 package eu.geniusgamedev.StepLink.metadata;
 
 import eu.geniusgamedev.StepLink.events.EventAssembler;
-import eu.geniusgamedev.StepLink.events.models.EventCreateModel;
 import eu.geniusgamedev.StepLink.events.EventInviteLinkAssembler;
+import eu.geniusgamedev.StepLink.events.InviteLinkGenerator;
+import eu.geniusgamedev.StepLink.events.models.EventCreateModel;
 import eu.geniusgamedev.StepLink.events.models.EventInviteLinkModel;
 import eu.geniusgamedev.StepLink.events.models.EventModel;
-import eu.geniusgamedev.StepLink.events.InviteLinkGenerator;
 import eu.geniusgamedev.StepLink.metadata.entity.Event;
 import eu.geniusgamedev.StepLink.metadata.entity.EventInviteLink;
 import eu.geniusgamedev.StepLink.metadata.entity.User;
 import eu.geniusgamedev.StepLink.metadata.repository.EventInviteLinkRepository;
 import eu.geniusgamedev.StepLink.metadata.repository.EventRepository;
+import eu.geniusgamedev.StepLink.metadata.search.EventSpecification;
+import eu.geniusgamedev.StepLink.metadata.search.SpecificationFactory;
+import eu.geniusgamedev.StepLink.metadata.search.SpecificationProxy;
+import eu.geniusgamedev.StepLink.metadata.search.UserSpecification;
 import eu.geniusgamedev.StepLink.security.authorization.UserIdentity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -30,6 +35,7 @@ public class EventService {
     private final InviteLinkGenerator inviteLinkGenerator;
     private final EventInviteLinkRepository eventInviteLinkRepository;
     private final EventInviteLinkAssembler eventInviteLinkAssembler;
+    private final SpecificationFactory specificationFactory;
 
     private Event getEvent(Long eventId) {
         return eventRepository.findById(eventId)
@@ -106,10 +112,11 @@ public class EventService {
         }
     }
 
-    public List<EventModel> getEvents() {
+    public List<EventModel> getEvents(String eventSearch) {
         log.info("Get all events...");
+        SpecificationProxy<Event> specification = specificationFactory.createProxy(new EventSpecification(eventSearch));
 
-        return eventRepository.findAll().stream()
+        return eventRepository.findAll(specification).stream()
                 .map(eventAssembler::convertFromEntity)
                 .collect(Collectors.toList());
     }

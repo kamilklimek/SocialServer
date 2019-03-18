@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ProfileModel>> getUsers(@RequestParam(name = "search") String search) {
+    public ResponseEntity<List<ProfileModel>> getUsers(@RequestParam(name = "search", defaultValue = "") String search) {
         try {
             return ResponseEntity.ok(metaDataService.findAllUsers(search));
         }catch (Exception e) {

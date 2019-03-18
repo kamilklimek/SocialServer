@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -30,9 +31,9 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<EventModel>> getEvents() {
+    public ResponseEntity<List<EventModel>> getEvents(@RequestParam(name = "search", defaultValue = "") String searchValue) {
         try {
-            return ResponseEntity.ok(eventService.getEvents());
+            return ResponseEntity.ok(eventService.getEvents(searchValue));
         } catch (Exception e) {
             log.error("Caught error while trying to get a events.");
             throw e;
