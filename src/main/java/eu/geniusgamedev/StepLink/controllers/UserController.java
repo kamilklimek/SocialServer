@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,9 +35,9 @@ public class UserController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ProfileModel>> getUsers() {
+    public ResponseEntity<List<ProfileModel>> getUsers(@RequestParam(name = "search") String search) {
         try {
-            return ResponseEntity.ok(metaDataService.findAllUsers());
+            return ResponseEntity.ok(metaDataService.findAllUsers(search));
         }catch (Exception e) {
             log.error("Caught error due to: {}", e.getMessage(), e);
             throw e;

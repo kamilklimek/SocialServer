@@ -3,6 +3,7 @@ package eu.geniusgamedev.StepLink.metadata;
 import eu.geniusgamedev.StepLink.metadata.entity.Notification;
 import eu.geniusgamedev.StepLink.metadata.entity.User;
 import eu.geniusgamedev.StepLink.metadata.repository.UserRepository;
+import eu.geniusgamedev.StepLink.metadata.search.UserSpecification;
 import eu.geniusgamedev.StepLink.profile.FullProfileModel;
 import eu.geniusgamedev.StepLink.profile.ProfileModel;
 import eu.geniusgamedev.StepLink.profile.ProfileModelAssembler;
@@ -10,6 +11,7 @@ import eu.geniusgamedev.StepLink.security.register.UserRegisterAssembler;
 import eu.geniusgamedev.StepLink.security.register.UserRegisterModel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -27,8 +29,10 @@ public class UserMetaDataService {
     private final PasswordEncoder encoder;
     private final ProfileModelAssembler profileAssembler;
 
-    public List<ProfileModel> findAllUsers() {
-        return profileAssembler.convertEntitiesToProfileModels(userRepository.findAll());
+    public List<ProfileModel> findAllUsers(String search) {
+        Specification<User> specification = new UserSpecification(search);
+
+        return profileAssembler.convertEntitiesToProfileModels(userRepository.findAll(specification));
     }
 
     public FullProfileModel register(UserRegisterModel model) {
