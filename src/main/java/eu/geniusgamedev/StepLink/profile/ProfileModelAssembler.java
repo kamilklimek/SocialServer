@@ -16,6 +16,13 @@ import java.util.stream.Collectors;
 public class ProfileModelAssembler {
     private final EventAssembler eventAssembler;
 
+    public AuthenticationFullProfileModel convertEntityToAuthenticatedFullProfileModel(User user, String token) {
+        return new AuthenticationFullProfileModel.AuthenticationBuilder()
+                .token(token)
+                .fromProfileModel(convertEntityToFullProfileModel(user))
+                .build();
+    }
+
     public FullProfileModel convertEntityToFullProfileModel(User user) {
         return new FullProfileModel.Builder()
                 .email(user.getEmail())
@@ -24,6 +31,7 @@ public class ProfileModelAssembler {
                 .following(getAllFollowing(user))
                 .followers(getAllFollowers(user))
                 .name((user.getName()))
+                .notifications(user.getNotifications())
                 .joinedEvents(convertEvents(user.getJoinedEvents()))
                 .build();
     }

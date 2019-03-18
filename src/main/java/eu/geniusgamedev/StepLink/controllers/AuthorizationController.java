@@ -3,6 +3,7 @@ package eu.geniusgamedev.StepLink.controllers;
 import eu.geniusgamedev.StepLink.metadata.UserMetaDataService;
 import eu.geniusgamedev.StepLink.metadata.entity.User;
 import eu.geniusgamedev.StepLink.profile.FullProfileModel;
+import eu.geniusgamedev.StepLink.security.LoginService;
 import eu.geniusgamedev.StepLink.security.authorization.TokenProvider;
 import eu.geniusgamedev.StepLink.security.login.UserLoginModel;
 import eu.geniusgamedev.StepLink.security.register.UserRegisterModel;
@@ -27,8 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class AuthorizationController {
     private final UserMetaDataService userService;
-    private final AuthenticationManager authenticationManager;
-    private final TokenProvider tokenProvider;
+    private final LoginService loginService;
 
     @PostMapping(
             value = "/signup",
@@ -48,13 +48,10 @@ public class AuthorizationController {
             value ="/login",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> login(@RequestBody UserLoginModel model) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                model.getEmail(), model.getPassword());
+    public ResponseEntity<?> login(@RequestBody UserLoginModel model) {
 
         try {
-            authenticationManager.authenticate(authenticationToken);
-            return ResponseEntity.ok(tokenProvider.createToken(model.getEmail()));
+            return ResponseEntity.ok(loginService.loginUser(model));
         }
         catch (AuthenticationException e) {
             log.info("User: {} is unauthorized: {}.", model, e.getMessage());

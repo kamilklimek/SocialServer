@@ -12,6 +12,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,8 +26,8 @@ import java.util.List;
 
 @Entity
 @Table(name="users")
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 @Builder
 @Setter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -42,20 +43,19 @@ public class User {
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "owner")
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<EventInviteLink> eventInviteLinks = new LinkedList<>();
 
-    @OneToMany(mappedBy = "follower")
+    @OneToMany(mappedBy = "follower", fetch = FetchType.EAGER)
     private List<FollowersRelations> following = new LinkedList<>();
 
-    @OneToMany(mappedBy = "followed")
+    @OneToMany(mappedBy = "followed", fetch = FetchType.EAGER)
     private List<FollowersRelations> followed = new LinkedList<>();
 
-    @OneToMany(mappedBy = "guest")
+    @OneToMany(mappedBy = "guest", fetch = FetchType.EAGER)
     private List<AcceptedInvitation> acceptedInvitations = new LinkedList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "USERS_EVENTS",
             joinColumns = @JoinColumn(name="user_id"),
@@ -63,7 +63,7 @@ public class User {
     )
     private List<Event> joinedEvents = new LinkedList<>();
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Notification> notifications = new LinkedList<>();
 
     @Override

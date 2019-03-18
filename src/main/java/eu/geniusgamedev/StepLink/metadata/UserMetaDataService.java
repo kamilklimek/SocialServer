@@ -51,6 +51,10 @@ public class UserMetaDataService {
         return userRepository.findByEmail(email);
     }
 
+    public User getUserByEmail(String email) {
+        return findUserByEmail(email)
+                .orElseThrow(UserNotFoundException::new);
+    }
 
     public ProfileModel findUserById(Long id) {
         log.info("Finding user profile by id: {}", id);

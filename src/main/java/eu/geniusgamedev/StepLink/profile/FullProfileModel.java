@@ -1,6 +1,7 @@
 package eu.geniusgamedev.StepLink.profile;
 
 import eu.geniusgamedev.StepLink.events.models.EventModel;
+import eu.geniusgamedev.StepLink.metadata.entity.Notification;
 import lombok.Getter;
 
 import java.util.LinkedList;
@@ -11,22 +12,28 @@ public class FullProfileModel extends ProfileModel {
     private List<ProfileModel> following;
     private List<ProfileModel> followers;
     private List<EventModel> joinedEvents;
+    private List<Notification> notifications;
 
-    private FullProfileModel(Long id, String name, String lastName, String email, List<ProfileModel> following, List<ProfileModel> followers, List<EventModel> joinedEvents) {
+
+
+    protected FullProfileModel(Long id, String name, String lastName, String email, List<ProfileModel> following, List<ProfileModel> followers, List<EventModel> joinedEvents, List<Notification> notifications) {
         super(id, name, lastName, email);
         this.following = following;
         this.followers = followers;
         this.joinedEvents = joinedEvents;
+        this.notifications = notifications;
     }
 
     public static class Builder {
         private List<ProfileModel> following = new LinkedList<>();
         private List<ProfileModel> followers = new LinkedList<>();
         private List<EventModel> joinedEvents = new LinkedList<>();
-        private Long id;
-        private String name;
+        private List<Notification> notifications = new LinkedList<>();
+
+        protected Long id;
+        protected String name;
         private String lastName;
-        private String email;
+        protected String email;
 
         public Builder id(Long id) {
             this.id = id;
@@ -58,13 +65,17 @@ public class FullProfileModel extends ProfileModel {
             return this;
         }
 
+        public Builder notifications(List<Notification> notifications) {
+            this.notifications = notifications;
+            return this;
+        }
         public Builder joinedEvents(List<EventModel> events) {
             this.joinedEvents = events;
             return this;
         }
 
         public FullProfileModel build() {
-            return new FullProfileModel(id, name, lastName, email, following, followers, joinedEvents);
+            return new FullProfileModel(id, name, lastName, email, following, followers, joinedEvents, notifications);
         }
 
     }
