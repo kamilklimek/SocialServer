@@ -25,7 +25,6 @@ import java.util.List;
 @Entity
 @Builder
 @Getter
-@ToString
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "events_invite_links")
 public class EventInviteLink {
@@ -46,4 +45,9 @@ public class EventInviteLink {
 
     @OneToMany(mappedBy = "eventInviteLink")
     private List<AcceptedInvitation> acceptedInvitations = new LinkedList<>();
+
+    @Override
+    public String toString() {
+        return "EventInviteLinkObj = Event: " + event.getName() + ", uniqueLink: " + uniqueLink + ", owner: " + owner.getId();
+    }
 }
