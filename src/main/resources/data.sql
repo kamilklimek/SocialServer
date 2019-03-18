@@ -1,6 +1,6 @@
-INSERT INTO users(id, name, last_name, email, password) values(1, 'ASD', 'QWE', 'asd@gmail.com', 'admin');
-INSERT INTO users(id, name, last_name, email, password) values(2, 'ASD2', 'QWE2', 'asd2@gmail.com', 'admin');
-INSERT INTO users(id, name, last_name, email, password) values(3, 'ASD3', 'QWE3', 'asd3@gmail.com', 'admin');
+INSERT INTO users(id, name, last_name, email, password) values(1, 'ASD', 'QWE', 'admin1@gmail.com', '$2a$12$dkhW8b6sjDazrmXtmuG2Ae9nCdjrru9AfKBNT.po3/qIV1Sd2KAsa');
+INSERT INTO users(id, name, last_name, email, password) values(2, 'ASD2', 'QWE2', 'admin2@gmail.com', '$2a$12$dkhW8b6sjDazrmXtmuG2Ae9nCdjrru9AfKBNT.po3/qIV1Sd2KAsa');
+INSERT INTO users(id, name, last_name, email, password) values(3, 'ASD3', 'QWE3', 'admin3@gmail.com', '$2a$12$dkhW8b6sjDazrmXtmuG2Ae9nCdjrru9AfKBNT.po3/qIV1Sd2KAsa');
 
 INSERT INTO events(id, name, location, date, description, type, max_participants) values(1, 'Lets walk together', 'Antwerp/Belgium', '2019-03-14 08:00:00', 'Event for everyone', 'WALK', 10);
 INSERT INTO events(id, name, location, date, description, type, max_participants) values(2, 'Lets run together', 'Antwerp/Belgium', '2019-03-15 08:00:00', 'Event for everyone', 'RUN', 3);
