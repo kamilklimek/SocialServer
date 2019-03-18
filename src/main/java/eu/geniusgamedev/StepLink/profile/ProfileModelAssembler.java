@@ -51,6 +51,12 @@ public class ProfileModelAssembler {
                 .build();
     }
 
+    public List<ProfileModel> convertEntitiesToProfileModels(List<User> users) {
+        return users.stream()
+                .map(this::convertEntityToProfileModel)
+                .collect(Collectors.toList());
+    }
+
     private List<ProfileModel> getAllFollowers(User user) {
         return user.getFollowed().stream()
                 .map(FollowersRelations::getFollower)

@@ -27,8 +27,8 @@ public class UserMetaDataService {
     private final PasswordEncoder encoder;
     private final ProfileModelAssembler profileAssembler;
 
-    List<User> findAll() {
-        return userRepository.findAll();
+    public List<ProfileModel> findAllUsers() {
+        return profileAssembler.convertEntitiesToProfileModels(userRepository.findAll());
     }
 
     public FullProfileModel register(UserRegisterModel model) {
@@ -72,6 +72,10 @@ public class UserMetaDataService {
             log.error("User with id: {} could not be found: {}.", id, e.getMessage());
             throw e;
         }
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     private class UserNotFoundException extends RuntimeException {

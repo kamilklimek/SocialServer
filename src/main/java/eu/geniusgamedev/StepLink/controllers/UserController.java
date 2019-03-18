@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @CrossOrigin
@@ -25,6 +27,16 @@ public class UserController {
         try {
             return ResponseEntity.ok(metaDataService.findUserById(id));
         } catch (Exception e) {
+            log.error("Caught error due to: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ProfileModel>> getUsers() {
+        try {
+            return ResponseEntity.ok(metaDataService.findAllUsers());
+        }catch (Exception e) {
             log.error("Caught error due to: {}", e.getMessage(), e);
             throw e;
         }
