@@ -1,11 +1,6 @@
 package eu.geniusgamedev.StepLink.metadata.entity;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,19 +11,15 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -50,11 +41,11 @@ public class Event {
     private int maxParticipants;
     @OneToMany(mappedBy = "event")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<EventInviteLink> eventInviteLink = new HashSet<>();
+    private List<EventInviteLink> eventInviteLink = new LinkedList<>();
 
     @ManyToMany(mappedBy = "joinedEvents")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<User> attachedUsers = new HashSet<>();
+    private List<User> attachedUsers = new LinkedList<>();
 
     private Event(String name, String location, Date date, String description, EventType type, int maxParticipants) {
         this.name = name;

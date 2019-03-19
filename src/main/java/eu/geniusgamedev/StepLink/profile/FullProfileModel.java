@@ -5,21 +5,21 @@ import eu.geniusgamedev.StepLink.metadata.entity.Notification;
 import eu.geniusgamedev.StepLink.notifications.NotificationModel;
 import lombok.Getter;
 
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 public class FullProfileModel extends ProfileModel {
-    private Set<ProfileModel> following;
-    private Set<ProfileModel> followers;
-    private Set<EventModel> joinedEvents;
+    private List<ProfileModel> following;
+    private List<ProfileModel> followers;
+    private List<EventModel> joinedEvents;
     private List<NotificationModel> notifications;
 
 
 
-    protected FullProfileModel(Long id, String name, String lastName, String email, Set<ProfileModel> following, Set<ProfileModel> followers, Set<EventModel> joinedEvents, List<NotificationModel> notifications) {
+    protected FullProfileModel(Long id, String name, String lastName, String email, List<ProfileModel> following, List<ProfileModel> followers, List<EventModel> joinedEvents, List<NotificationModel> notifications) {
         super(id, name, lastName, email);
         this.following = following;
         this.followers = followers;
@@ -28,9 +28,9 @@ public class FullProfileModel extends ProfileModel {
     }
 
     public static class Builder {
-        private Set<ProfileModel> following = new HashSet<>();
-        private Set<ProfileModel> followers = new HashSet<>();
-        private Set<EventModel> joinedEvents = new HashSet<>();
+        private List<ProfileModel> following = new LinkedList<>();
+        private List<ProfileModel> followers = new LinkedList<>();
+        private List<EventModel> joinedEvents = new LinkedList<>();
         private List<NotificationModel> notifications = new LinkedList<>();
 
         protected Long id;
@@ -58,12 +58,12 @@ public class FullProfileModel extends ProfileModel {
             return this;
         }
 
-        public Builder following(Set<ProfileModel> following) {
+        public Builder following(List<ProfileModel> following) {
             this.following = following;
             return this;
         }
 
-        public Builder followers(Set<ProfileModel> followers) {
+        public Builder followers(List<ProfileModel> followers) {
             this.followers = followers;
             return this;
         }
@@ -72,7 +72,7 @@ public class FullProfileModel extends ProfileModel {
             this.notifications = notifications;
             return this;
         }
-        public Builder joinedEvents(Set<EventModel> events) {
+        public Builder joinedEvents(List<EventModel> events) {
             this.joinedEvents = events;
             return this;
         }

@@ -13,12 +13,12 @@ public class UserRegisterAssembler {
                 .lastName(model.getLastName())
                 .name(model.getName())
                 .password(model.getPassword())
-                .acceptedInvitations(Collections.emptySet())
-                .followed(Collections.emptySet())
-                .following(Collections.emptySet())
-                .eventInviteLinks(Collections.emptySet())
+                .acceptedInvitations(Collections.emptyList())
+                .followed(Collections.emptyList())
+                .following(Collections.emptyList())
+                .eventInviteLinks(Collections.emptyList())
                 .notifications(Collections.emptyList())
-                .joinedEvents(Collections.emptySet())
+                .joinedEvents(Collections.emptyList())
                 .build();
     }
 

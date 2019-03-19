@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -39,10 +39,10 @@ public class ProfileModelAssembler {
                 .build();
     }
 
-    private Set<EventModel> convertEvents(Set<Event> joinedEvents) {
+    private List<EventModel> convertEvents(List<Event> joinedEvents) {
         return joinedEvents.stream()
                 .map(eventAssembler::convertFromEntity)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     public ProfileModel convertEntityToProfileModel(User user) {
@@ -60,11 +60,11 @@ public class ProfileModelAssembler {
                 .collect(Collectors.toList());
     }
 
-    private Set<ProfileModel> getAllFollowers(User user) {
+    private List<ProfileModel> getAllFollowers(User user) {
         return user.getFollowed().stream()
                 .map(FollowersRelations::getFollower)
                 .map(this::convertEntityToModel)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     private ProfileModel convertEntityToModel(User user) {
@@ -76,10 +76,10 @@ public class ProfileModelAssembler {
                 .build();
     }
 
-    private Set<ProfileModel> getAllFollowing(User user) {
+    private List<ProfileModel> getAllFollowing(User user) {
         return user.getFollowing().stream()
                 .map(FollowersRelations::getFollowed)
                 .map(this::convertEntityToModel)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 }

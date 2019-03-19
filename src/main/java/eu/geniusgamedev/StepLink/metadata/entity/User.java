@@ -12,7 +12,6 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,10 +20,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -47,19 +44,19 @@ public class User {
 
     @OneToMany(mappedBy = "owner")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<EventInviteLink> eventInviteLinks = new HashSet<>();
+    private List<EventInviteLink> eventInviteLinks = new LinkedList<>();
 
     @OneToMany(mappedBy = "follower")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<FollowersRelations> following = new HashSet<>();
+    private List<FollowersRelations> following = new LinkedList<>();
 
     @OneToMany(mappedBy = "followed")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<FollowersRelations> followed = new HashSet<>();
+    private List<FollowersRelations> followed = new LinkedList<>();
 
     @OneToMany(mappedBy = "guest")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<AcceptedInvitation> acceptedInvitations = new HashSet<>();
+    private List<AcceptedInvitation> acceptedInvitations = new LinkedList<>();
 
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -68,7 +65,7 @@ public class User {
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="event_id")
     )
-    private Set<Event> joinedEvents = new HashSet<>();
+    private List<Event> joinedEvents = new LinkedList<>();
 
     @OneToMany(mappedBy = "owner")
     @LazyCollection(LazyCollectionOption.FALSE)

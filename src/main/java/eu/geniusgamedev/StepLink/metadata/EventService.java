@@ -70,7 +70,7 @@ public class EventService {
     }
 
     private Event joinUserToEvent(User user, Event event) {
-        Set<Event> events = user.getJoinedEvents();
+        List<Event> events = user.getJoinedEvents();
         events.add(event);
         return event;
     }
@@ -100,7 +100,7 @@ public class EventService {
     private void removeUserEvent(UserIdentity userIdentity, Long eventId) {
         final User user = userMetaDataService.findUser(userIdentity.getUserId());
 
-        Set<Event> userEvents = user.getJoinedEvents();
+        List<Event> userEvents = user.getJoinedEvents();
 
         userEvents.removeIf(event -> event.getId().equals(eventId));
     }
