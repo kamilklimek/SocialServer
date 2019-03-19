@@ -1,18 +1,19 @@
 package eu.geniusgamedev.StepLink.profile;
 
 import eu.geniusgamedev.StepLink.events.models.EventModel;
-import eu.geniusgamedev.StepLink.metadata.entity.Notification;
+import eu.geniusgamedev.StepLink.notifications.NotificationModel;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 public class AuthenticationFullProfileModel extends FullProfileModel {
     private String token;
 
     private AuthenticationFullProfileModel(Long id, String name, String lastName, String email,
-                                           List<ProfileModel> following, List<ProfileModel> followers,
-                                           List<EventModel> joinedEvents, List<Notification> notifications, String token) {
+                                           Set<ProfileModel> following, Set<ProfileModel> followers,
+                                           Set<EventModel> joinedEvents, List<NotificationModel> notifications, String token) {
         super(id, name, lastName, email, following, followers, joinedEvents, notifications);
         this.token = token;
     }

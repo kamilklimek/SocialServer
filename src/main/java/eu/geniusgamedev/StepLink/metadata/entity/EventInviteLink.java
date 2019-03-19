@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +20,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Entity
@@ -44,7 +48,8 @@ public class EventInviteLink {
     private String uniqueLink;
 
     @OneToMany(mappedBy = "eventInviteLink")
-    private List<AcceptedInvitation> acceptedInvitations = new LinkedList<>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<AcceptedInvitation> acceptedInvitations = new HashSet<>();
 
     @Override
     public String toString() {

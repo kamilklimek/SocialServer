@@ -25,8 +25,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -48,10 +50,11 @@ public class Event {
     private int maxParticipants;
     @OneToMany(mappedBy = "event")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<EventInviteLink> eventInviteLink;
+    private Set<EventInviteLink> eventInviteLink = new HashSet<>();
 
-    @ManyToMany(mappedBy = "joinedEvents", fetch = FetchType.EAGER)
-    private List<User> attachedUsers = new LinkedList<>();
+    @ManyToMany(mappedBy = "joinedEvents")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<User> attachedUsers = new HashSet<>();
 
     private Event(String name, String location, Date date, String description, EventType type, int maxParticipants) {
         this.name = name;

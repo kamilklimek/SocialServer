@@ -5,16 +5,19 @@ import eu.geniusgamedev.StepLink.events.models.EventModel;
 import eu.geniusgamedev.StepLink.metadata.entity.Event;
 import eu.geniusgamedev.StepLink.metadata.entity.FollowersRelations;
 import eu.geniusgamedev.StepLink.metadata.entity.User;
+import eu.geniusgamedev.StepLink.notifications.NotificationAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class ProfileModelAssembler {
     private final EventAssembler eventAssembler;
+    private final NotificationAssembler notificationAssembler;
 
     public AuthenticationFullProfileModel convertEntityToAuthenticatedFullProfileModel(User user, String token) {
         return new AuthenticationFullProfileModel.AuthenticationBuilder()
@@ -31,15 +34,15 @@ public class ProfileModelAssembler {
                 .following(getAllFollowing(user))
                 .followers(getAllFollowers(user))
                 .name((user.getName()))
-                .notifications(user.getNotifications())
+                .notifications(notificationAssembler.convertFromEntities(user.getNotifications()))
                 .joinedEvents(convertEvents(user.getJoinedEvents()))
                 .build();
     }
 
-    private List<EventModel> convertEvents(List<Event> joinedEvents) {
+    private Set<EventModel> convertEvents(Set<Event> joinedEvents) {
         return joinedEvents.stream()
                 .map(eventAssembler::convertFromEntity)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     public ProfileModel convertEntityToProfileModel(User user) {
@@ -57,11 +60,11 @@ public class ProfileModelAssembler {
                 .collect(Collectors.toList());
     }
 
-    private List<ProfileModel> getAllFollowers(User user) {
+    private Set<ProfileModel> getAllFollowers(User user) {
         return user.getFollowed().stream()
                 .map(FollowersRelations::getFollower)
                 .map(this::convertEntityToModel)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     private ProfileModel convertEntityToModel(User user) {
@@ -73,10 +76,10 @@ public class ProfileModelAssembler {
                 .build();
     }
 
-    private List<ProfileModel> getAllFollowing(User user) {
+    private Set<ProfileModel> getAllFollowing(User user) {
         return user.getFollowing().stream()
                 .map(FollowersRelations::getFollowed)
                 .map(this::convertEntityToModel)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }

@@ -21,8 +21,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -43,27 +45,33 @@ public class User {
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
-    private List<EventInviteLink> eventInviteLinks = new LinkedList<>();
+    @OneToMany(mappedBy = "owner")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<EventInviteLink> eventInviteLinks = new HashSet<>();
 
-    @OneToMany(mappedBy = "follower", fetch = FetchType.EAGER)
-    private List<FollowersRelations> following = new LinkedList<>();
+    @OneToMany(mappedBy = "follower")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<FollowersRelations> following = new HashSet<>();
 
-    @OneToMany(mappedBy = "followed", fetch = FetchType.EAGER)
-    private List<FollowersRelations> followed = new LinkedList<>();
+    @OneToMany(mappedBy = "followed")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<FollowersRelations> followed = new HashSet<>();
 
-    @OneToMany(mappedBy = "guest", fetch = FetchType.EAGER)
-    private List<AcceptedInvitation> acceptedInvitations = new LinkedList<>();
+    @OneToMany(mappedBy = "guest")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<AcceptedInvitation> acceptedInvitations = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "USERS_EVENTS",
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="event_id")
     )
-    private List<Event> joinedEvents = new LinkedList<>();
+    private Set<Event> joinedEvents = new HashSet<>();
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "owner")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Notification> notifications = new LinkedList<>();
 
     @Override
